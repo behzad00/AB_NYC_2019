@@ -244,20 +244,21 @@ print("==========================================")
 import pandas as pd
 import seaborn as sns
 
-df = pd.read_csv('./AB_NYC_2019.csv')
+df_L = pd.read_csv('./AB_NYC_2019.csv')
 # Condition added for data cleansing Behzad 11.20.2020
 #print("df" , len(df))
-df = df[df["price"] > 0 ]
-df.loc[df['number_of_reviews'] == "", 'number_of_reviews'] = 0
-df.loc[df['reviews_per_month'] == "", 'reviews_per_month'] = 0
+df_L = df_L[df_L["price"] > 0 ]
+df_L.loc[df_L['number_of_reviews'] == "", 'number_of_reviews'] = 0
+df_L.loc[df_L['reviews_per_month'] == "", 'reviews_per_month'] = 0
 
 #print("df second time" ,len(df))
 
 # we can pnly correlate numerical variables
-correlatable =  df[['price', 'minimum_nights', 'number_of_reviews', 'reviews_per_month',
+correlatable =  df_L[['price', 'minimum_nights', 'number_of_reviews', 'reviews_per_month',
                  'calculated_host_listings_count', 'availability_365']]  
 corr = correlatable.corr()
 sns.heatmap(corr)
+
 print("==========================================")
 
 import numpy as np
@@ -475,9 +476,6 @@ print(pd.crosstab(y_test_LR, preds_ishouse, rownames = ["Actual"], colnames = ["
 
 
 ###########################################################
-## Bar charts by Ei  11.29.2020
-# the chart for average price by neighborhood in Manhattan doesn't seem to make sense. I added distribution of room type instead.
-
 boroughs_list = list(set(map(lambda x: x.neighbourhood_group, data)))
 neighbourhoods = list(set(map(lambda x: x.neighbourhood, data)))
 room_t = list(set(map(lambda x: x.room_type, data)))
@@ -502,18 +500,18 @@ for b in boroughs_list:
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_axes([0,0,1,1])
-ax.set_title("Average price by borough")
-ax.bar(bor,y_avg)
+ax.set_title("Average price $ by borough")
+ax.bar(bor,y_avg,color ='purple')
 
 fig2 = plt.figure()
 ax = fig2.add_axes([0,0,1,1])
 ax.set_title("Number of listings by borough")
-ax.bar(bor,y_listing)
+ax.bar(bor,y_listing,color = 'green')
 
 fig3 = plt.figure()
 ax = fig3.add_axes([0,0,1,1])
-ax.set_title("Average availability by borough")
-ax.bar(bor,y_ava)
+ax.set_title("Average availability (days) by borough")
+ax.bar(bor,y_ava, color = 'navy')
 plt.show()
 
 x_room = []
@@ -529,6 +527,287 @@ fig4 = plt.figure()
 ax = fig4.add_axes([0,0,1,1])
 ax.set_title("Distribution by room type")
 ax.bar(x_room,y_room)
+plt.show()
+
+##################################################################################
+#Aykut 12/8/2020
+#Scatter plots to find correlation between variables
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df00 = pd.read_csv('./AB_NYC_2019.csv')
+
+price_fltr_mt=df00[(df00['price']!=0)&(df00['neighbourhood_group']=='Manhattan')]
+price_fltr_brx=df00[(df00['price']!=0)&(df00['neighbourhood_group']=='Bronx')]
+price_fltr_qn=df00[(df00['price']!=0)&(df00['neighbourhood_group']=='Queens')]
+price_fltr_brk=df00[(df00['price']!=0)&(df00['neighbourhood_group']=='Brooklyn')]
+price_fltr_si=df00[(df00['price']!=0)&(df00['neighbourhood_group']=='Staten Island')]
+
+y_mt1=price_fltr_mt['price']
+x_mt1=price_fltr_mt['number_of_reviews']
+y_brx1=price_fltr_brx['price']
+x_brx1=price_fltr_brx['number_of_reviews']
+y_qn1=price_fltr_qn['price']
+x_qn1=price_fltr_qn['number_of_reviews']
+y_brk1=price_fltr_brk['price']
+x_brk1=price_fltr_brk['number_of_reviews']
+y_si1=price_fltr_si['price']
+x_si1=price_fltr_si['number_of_reviews']
+
+plt.scatter(x_mt1,y_mt1,color='red',alpha=0.1)
+plt.xlabel('Number of reviews')
+plt.ylabel('Price')
+plt.title('Manhattan')
+plt.ylim(0,1000)
+plt.xlim(0,700)
+plt.savefig('NoR_Manhattan')
+plt.show()
+
+plt.scatter(x_brx1,y_brx1,color='red',alpha=0.1)
+plt.xlabel('Number of reviews')
+plt.ylabel('Price')
+plt.title('Bronx')
+plt.ylim(0,500)
+plt.xlim(0,700)
+plt.savefig('NoR_Bronx')
+plt.show()
+
+plt.scatter(x_qn1,y_qn1,color='red',alpha=0.1)
+plt.xlabel('Number of reviews')
+plt.ylabel('Price')
+plt.title('Queens')
+plt.ylim(0,500)
+plt.xlim(0,700)
+plt.savefig('NoR_Queens')
+plt.show()
+
+plt.scatter(x_brk1,y_brk1,color='red',alpha=0.1)
+plt.xlabel('Number of reviews')
+plt.ylabel('Price')
+plt.title('Brooklyn')
+plt.ylim(0,500)
+plt.xlim(0,700)
+plt.savefig('NoR_Brooklyn')
+plt.show()
+
+plt.scatter(x_si1,y_si1,color='red',alpha=0.1)
+plt.xlabel('Number of reviews')
+plt.ylabel('Price')
+plt.title('Staten Island')
+plt.ylim(0,500)
+plt.xlim(0,700)
+plt.savefig('NoR_SI')
+plt.show()
+
+y_mt2=price_fltr_mt['price']
+x_mt2=price_fltr_mt['minimum_nights']
+y_brx2=price_fltr_brx['price']
+x_brx2=price_fltr_brx['minimum_nights']
+y_qn2=price_fltr_qn['price']
+x_qn2=price_fltr_qn['minimum_nights']
+y_brk2=price_fltr_brk['price']
+x_brk2=price_fltr_brk['minimum_nights']
+y_si2=price_fltr_si['price']
+x_si2=price_fltr_si['minimum_nights']
+
+plt.scatter(x_mt2,y_mt2,color='orange',alpha=0.1)
+plt.xlabel('Minimum Nights')
+plt.ylabel('Price')
+plt.title('Manhattan')
+plt.ylim(0,1000)
+plt.xlim(0,400)
+plt.savefig('MN_Manhattan')
+plt.show()
+
+plt.scatter(x_brx2,y_brx2,color='orange',alpha=0.1)
+plt.xlabel('Minimum Nights')
+plt.ylabel('Price')
+plt.title('Bronx')
+plt.ylim(0,500)
+plt.xlim(0,50)
+plt.savefig('MN_Bronx')
+plt.show()
+
+plt.scatter(x_qn2,y_qn2,color='orange',alpha=0.1)
+plt.xlabel('Minimum Nights')
+plt.ylabel('Price')
+plt.title('Queens')
+plt.ylim(0,500)
+plt.xlim(0,50)
+plt.savefig('MN_Queens')
+plt.show()
+
+plt.scatter(x_brk2,y_brk2,color='orange',alpha=0.1)
+plt.xlabel('Minimum Nights')
+plt.ylabel('Price')
+plt.title('Brooklyn')
+plt.ylim(0,500)
+plt.xlim(0,50)
+plt.savefig('MN_Brooklyn')
+plt.show()
+
+plt.scatter(x_si2,y_si2,color='orange',alpha=0.1)
+plt.xlabel('Minimum Nights')
+plt.ylabel('Price')
+plt.title('Staten Island')
+plt.ylim(0,500)
+plt.xlim(0,50)
+plt.savefig('MN_SI')
+plt.show()
+
+y_mt3=price_fltr_mt['price']
+x_mt3=price_fltr_mt['reviews_per_month']
+y_brx3=price_fltr_brx['price']
+x_brx3=price_fltr_brx['reviews_per_month']
+y_qn3=price_fltr_qn['price']
+x_qn3=price_fltr_qn['reviews_per_month']
+y_brk3=price_fltr_brk['price']
+x_brk3=price_fltr_brk['reviews_per_month']
+y_si3=price_fltr_si['price']
+x_si3=price_fltr_si['reviews_per_month']
+
+plt.scatter(x_mt3,y_mt3,alpha=0.1)
+plt.xlabel('Reviews per month')
+plt.ylabel('Price')
+plt.title('Manhattan')
+plt.ylim(0,1000)
+plt.xlim(0,30)
+plt.savefig('RpM_Manhattan')
+plt.show()
+
+plt.scatter(x_brx3,y_brx3,alpha=0.1)
+plt.xlabel('Reviews per month')
+plt.ylabel('Price')
+plt.title('Bronx')
+plt.ylim(0,500)
+plt.savefig('RpM_Bronx')
+plt.show()
+
+plt.scatter(x_qn3,y_qn3,alpha=0.1)
+plt.xlabel('Reviews per month')
+plt.ylabel('Price')
+plt.title('Queens')
+plt.ylim(0,500)
+plt.savefig('RpM_Queens')
+plt.show()
+
+plt.scatter(x_brk3,y_brk3,alpha=0.1)
+plt.xlabel('Reviews per month')
+plt.ylabel('Price')
+plt.title('Brooklyn')
+plt.ylim(0,500)
+plt.savefig('RpM_Brooklyn')
+plt.show()
+
+plt.scatter(x_si3,y_si3,alpha=0.1)
+plt.xlabel('Reviews per month')
+plt.ylabel('Price')
+plt.title('Staten Island')
+plt.ylim(0,500)
+plt.savefig('RpM_SI')
+plt.show()
+
+y_mt4=price_fltr_mt['price']
+x_mt4=price_fltr_mt['calculated_host_listings_count']
+y_brx4=price_fltr_brx['price']
+x_brx4=price_fltr_brx['calculated_host_listings_count']
+y_qn4=price_fltr_qn['price']
+x_qn4=price_fltr_qn['calculated_host_listings_count']
+y_brk4=price_fltr_brk['price']
+x_brk4=price_fltr_brk['calculated_host_listings_count']
+y_si4=price_fltr_si['price']
+x_si4=price_fltr_si['calculated_host_listings_count']
+
+plt.scatter(x_mt4,y_mt4,color='green',alpha=0.1)
+plt.xlabel('Calculated host listings count')
+plt.ylabel('Price')
+plt.title('Manhattan')
+plt.ylim(0,1000)
+plt.savefig('CHLC_Manhattan')
+plt.show()
+
+plt.scatter(x_brx4,y_brx4,color='green',alpha=0.1)
+plt.xlabel('Calculated host listings count')
+plt.ylabel('Price')
+plt.title('Bronx')
+plt.ylim(0,500)
+plt.savefig('CHLC_Bronx')
+plt.show()
+
+plt.scatter(x_qn4,y_qn4,color='green',alpha=0.1)
+plt.xlabel('Calculated host listings count')
+plt.ylabel('Price')
+plt.title('Queens')
+plt.ylim(0,500)
+plt.savefig('CHLC_Queens')
+plt.show()
+
+plt.scatter(x_brk4,y_brk4,color='green',alpha=0.1)
+plt.xlabel('Calculated host listings count')
+plt.ylabel('Price')
+plt.title('Brooklyn')
+plt.ylim(0,500)
+plt.savefig('CHLC_Brooklyn')
+plt.show()
+
+plt.scatter(x_si4,y_si4,color='green',alpha=0.1)
+plt.xlabel('Calculated host listings count')
+plt.ylabel('Price')
+plt.title('Staten Island')
+plt.ylim(0,500)
+plt.savefig('CHLC_SI')
+plt.show()
+
+y_mt5=price_fltr_mt['price']
+x_mt5=price_fltr_mt['availability_365']
+y_brx5=price_fltr_brx['price']
+x_brx5=price_fltr_brx['availability_365']
+y_qn5=price_fltr_qn['price']
+x_qn5=price_fltr_qn['availability_365']
+y_brk5=price_fltr_brk['price']
+x_brk5=price_fltr_brk['availability_365']
+y_si5=price_fltr_si['price']
+x_si5=price_fltr_si['availability_365']
+
+plt.scatter(x_mt5,y_mt5,color='gray',alpha=0.1)
+plt.xlabel('Availability')
+plt.ylabel('Price')
+plt.title('Manhattan')
+plt.ylim(0,1000)
+plt.savefig('A365_Manhattan')
+plt.show()
+
+plt.scatter(x_brx5,y_brx5,color='gray',alpha=0.1)
+plt.xlabel('Availability')
+plt.ylabel('Price')
+plt.title('Bronx')
+plt.ylim(0,500)
+plt.savefig('A365_Bronx')
+plt.show()
+
+plt.scatter(x_qn5,y_qn5,color='gray',alpha=0.1)
+plt.xlabel('Availability')
+plt.ylabel('Price')
+plt.title('Queens')
+plt.ylim(0,500)
+plt.savefig('A365_Queens')
+plt.show()
+
+plt.scatter(x_brk5,y_brk5,color='gray',alpha=0.1)
+plt.xlabel('Availability')
+plt.ylabel('Price')
+plt.title('Brooklyn')
+plt.ylim(0,500)
+plt.savefig('A365_Brooklyn')
+plt.show()
+
+plt.scatter(x_si5,y_si5,color='gray',alpha=0.1)
+plt.xlabel('Availability')
+plt.ylabel('Price')
+plt.title('Staten Island')
+plt.ylim(0,500)
+plt.savefig('A365_SI')
 plt.show()
 
 ###########################################################
@@ -643,7 +922,7 @@ ax.bar(room_types, r_avg)
 ##Jesina Dangol 11/30/2020
 ##Display Top 10 records for highest and lowest price from user desired input neighborhoods
 ##Display chart for these min & max prices correlation with minimum nights
-"""
+
 import pandas as pd
 
 col_list = [ "neighbourhood_group","neighbourhood", "price","minimum_nights" ]
@@ -679,7 +958,7 @@ def Display(lst):
         
         
 #Getting neighbourhood input from user
-
+print("\nSelect a neighbourhood or type 'Exit' to exit")
 check = input("Neighbourhood: ")
 while check != 'Exit':
     ff = df[(df.neighbourhood  == check) & (df["price"] > 0)]
@@ -688,5 +967,5 @@ while check != 'Exit':
     
 print("\n")
 print("Thank you for choosing us!")
-"""
+
 ##################################################################################
