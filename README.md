@@ -1,5 +1,4 @@
 # AB_NYC_2019
-# AB_NYC_2019
 Source : https://www.kaggle.com/dgomonov/new-york-city-airbnb-open-data
 
 Airbnb has seen massive growth to become one of the most popular accommodation platforms for travelers. It has transformed the hospitality industry and the way people travel. New York City, as one of the biggest cities in the world, has a very high amount of Airbnb traffic. This project thus focuses on Airbnb in New York City and has two main purposes: 
@@ -11,7 +10,7 @@ Part 1: Analysis of meaningful Airbnb trends in New York City
 In this section, we experimented with different data visualization techniques to derive the most meaningful analysis of Airbnb trends in New York City. Our visualization techniques include bar charts, scatter plots, and line charts. 
 
 a. Bar charts 
-We first began with bar charts as they are a simple yet effective form of data visualization. With the bar charts, we visualize average price by borough, number of listings by borough and average availability out of 365 days a year by borough. Expectedly, we found that Manhattan is the most expensive borough with an average of $190 per night and with the most number of listings with over 20,000. Brooklyn stands second followed by Queens. Given the distance from the city and inconvenience of public transportation, Staten Island has very few listings and most highest average availability. Lambda was used for data wrangling.
+We first began with bar charts as they are a simple yet effective form of data visualization. With the bar charts, we visualize average price by borough, number of listings by borough and average availability out of 365 days a year by borough. Expectedly, we found that Manhattan is the most expensive borough with an average of $190 per night and with the most number of listings with over 20,000. Brooklyn stands second followed by Queens. Given the distance from the city and inconvenience of public transportation, Staten Island has very few listings and most highest average availability. Lambda was used for data wrangling. We carried out the same exercise for room types. Entire apartments are the most expensive, require the highest number of minimum nights and have the most listings. 
 
 b. Scatter plots 
 Secondly, we tried to observe and show relationships between price and other numeric variables by generating scatter plots for each borough. 
